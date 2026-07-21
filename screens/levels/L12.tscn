@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://c81d6bc3s0231"]
+
+[ext_resource type="PackedScene" uid="uid://b24fuhu8rsl76" path="res://screens/main_map2.tscn" id="1_4nbvo"]
+[ext_resource type="PackedScene" uid="uid://csdyjx8y7qoy4" path="res://screens/main/fries.tscn" id="2_3byfv"]
+[ext_resource type="PackedScene" uid="uid://doxdvgkl2wlv3" path="res://screens/main/mozzarila.tscn" id="3_g524l"]
+[ext_resource type="PackedScene" uid="uid://g63fip78dr16" path="res://screens/main/chicken_enemy.tscn" id="4_c11u0"]
+[ext_resource type="PackedScene" uid="uid://wh66gdpbdves" path="res://screens/main/shawerma.tscn" id="5_mmhmc"]
+
+[node name="mainMap" unique_id=432969192 instance=ExtResource("1_4nbvo")]
+
+[node name="Fries" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="0" unique_id=457635058 instance=ExtResource("2_3byfv")]
+position = Vector2(1650, 268)
+
+[node name="Mozzarila" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="1" unique_id=2134080639 instance=ExtResource("3_g524l")]
+position = Vector2(1624, 828)
+
+[node name="Mozzarila2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="2" unique_id=63214752 instance=ExtResource("3_g524l")]
+position = Vector2(518, 878)
+
+[node name="ChickenEnemy2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="3" unique_id=1734499762 instance=ExtResource("4_c11u0")]
+position = Vector2(1688, 536)
+
+[node name="ChickenEnemy3" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="4" unique_id=772708259 instance=ExtResource("4_c11u0")]
+position = Vector2(964, 50)
+
+[node name="ChickenEnemy4" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="5" unique_id=572448990 instance=ExtResource("4_c11u0")]
+position = Vector2(1296, 60)
+
+[node name="Shawerma" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="6" unique_id=1849499075 instance=ExtResource("5_mmhmc")]
+position = Vector2(164, 518)
+
+[node name="Fries2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="7" unique_id=1143944810 instance=ExtResource("2_3byfv")]
+position = Vector2(1188, 908)

@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://pv0sd02xqfl"]
+
+[ext_resource type="PackedScene" uid="uid://ccu8c74rbosq4" path="res://screens/main_map.tscn" id="1_umgwe"]
+[ext_resource type="Texture2D" uid="uid://dbbbke2qga36u" path="res://art/map/CHAR.png" id="2_ayb4n"]
+[ext_resource type="PackedScene" uid="uid://g63fip78dr16" path="res://screens/main/chicken_enemy.tscn" id="3_ettnu"]
+[ext_resource type="PackedScene" uid="uid://doxdvgkl2wlv3" path="res://screens/main/mozzarila.tscn" id="4_wwipg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5h11f"]
+size = Vector2(174, 20)
+
+[node name="mainMap" unique_id=432969192 instance=ExtResource("1_umgwe")]
+
+[node name="Sprite2D6" type="Sprite2D" parent="TileMapLayer" parent_id_path=PackedInt32Array(1301600512) index="2" unique_id=117307635]
+position = Vector2(90, 774)
+scale = Vector2(1.4756095, 1.5000001)
+texture = ExtResource("2_ayb4n")
+
+[node name="Sprite2D7" type="Sprite2D" parent="TileMapLayer" parent_id_path=PackedInt32Array(1301600512) index="3" unique_id=98543688]
+position = Vector2(1050, 766)
+scale = Vector2(1.4756095, 1.5000001)
+texture = ExtResource("2_ayb4n")
+
+[node name="CollisionShape2D15" type="CollisionShape2D" parent="staticBody" parent_id_path=PackedInt32Array(1362357125) index="1" unique_id=1467364970]
+position = Vector2(1050, 712)
+shape = SubResource("RectangleShape2D_5h11f")
+
+[node name="CollisionShape2D16" type="CollisionShape2D" parent="staticBody" parent_id_path=PackedInt32Array(1362357125) index="2" unique_id=1314502482]
+position = Vector2(94, 724)
+shape = SubResource("RectangleShape2D_5h11f")
+
+[node name="ChickenEnemy2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="0" unique_id=1734499762 instance=ExtResource("3_ettnu")]
+position = Vector2(63, 628)
+
+[node name="ChickenEnemy3" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="1" unique_id=1655934635 instance=ExtResource("3_ettnu")]
+position = Vector2(1017, 618)
+
+[node name="ChickenEnemy4" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="2" unique_id=152327114 instance=ExtResource("3_ettnu")]
+position = Vector2(99, 362)
+
+[node name="ChickenEnemy5" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="3" unique_id=266648896 instance=ExtResource("3_ettnu")]
+position = Vector2(1037, 342)
+
+[node name="ChickenEnemy6" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="4" unique_id=476588694 instance=ExtResource("3_ettnu")]
+position = Vector2(547, 236)
+
+[node name="ChickenEnemy7" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="5" unique_id=1994655546 instance=ExtResource("3_ettnu")]
+position = Vector2(611, 138)
+
+[node name="Mozzarila" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="6" unique_id=457635058 instance=ExtResource("4_wwipg")]
+position = Vector2(271, 56)
+
+[node name="Mozzarila2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="7" unique_id=827599772 instance=ExtResource("4_wwipg")]
+position = Vector2(949, 84)

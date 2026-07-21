@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://g63fip78dr16"]
+
+[ext_resource type="Texture2D" uid="uid://cajsjr0blmrvl" path="res://art/chiken/food/3.png" id="1_ii7rv"]
+[ext_resource type="Script" uid="uid://b22tnus8dlne" path="res://script/chicken_enemy.gd" id="1_m2085"]
+[ext_resource type="Texture2D" uid="uid://bfijuw3urrqsx" path="res://art/chiken/food/d798d612-3116-4e05-93a0-99510c11cbb5.png" id="2_m2085"]
+[ext_resource type="Texture2D" uid="uid://in6by1ha04j5" path="res://art/chiken/food/1.png" id="3_6gk1l"]
+[ext_resource type="Texture2D" uid="uid://dygsy2aexbqng" path="res://art/chiken/food/2.png" id="4_mncyc"]
+[ext_resource type="Texture2D" uid="uid://bauxf40jwx82o" path="res://art/chiken/1.png" id="5_wk7ix"]
+[ext_resource type="Texture2D" uid="uid://dohevqdbk7ikg" path="res://art/chiken/food/4.png" id="6_mncyc"]
+[ext_resource type="AudioStream" uid="uid://v6fjwwhywqsv" path="res://sound/eat.mp3" id="7_6gk1l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s101x"]
+atlas = ExtResource("2_m2085")
+region = Rect2(512, 341, 512, 341)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4icp"]
+atlas = ExtResource("2_m2085")
+region = Rect2(512, 682, 512, 341)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkgqn"]
+atlas = ExtResource("5_wk7ix")
+region = Rect2(768, 0, 384, 456)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3yx1"]
+atlas = ExtResource("5_wk7ix")
+region = Rect2(384, 456, 384, 456)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7s1v2"]
+atlas = ExtResource("5_wk7ix")
+region = Rect2(768, 456, 384, 456)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv1rq"]
+atlas = ExtResource("5_wk7ix")
+region = Rect2(384, 0, 384, 456)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5h11f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s101x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4icp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_mncyc")
+}],
+"loop": 1,
+"name": &"cooked",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_6gk1l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_mncyc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_ii7rv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_mncyc")
+}],
+"loop": 1,
+"name": &"transform",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hkgqn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3yx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7s1v2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv1rq")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 7.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jx8tp"]
+radius = 126.0
+height = 408.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5h11f"]
+radius = 256.75323
+
+[node name="ChickenEnemy" type="CharacterBody2D" unique_id=1734499762]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_m2085")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=86603812]
+sprite_frames = SubResource("SpriteFrames_5h11f")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1602689660]
+shape = SubResource("CapsuleShape2D_jx8tp")
+
+[node name="FloorRayCast" type="RayCast2D" parent="." unique_id=1566983939]
+position = Vector2(20, 50)
+target_position = Vector2(-10, 200)
+
+[node name="WallRayCast" type="RayCast2D" parent="." unique_id=517026909]
+position = Vector2(20, 50.000004)
+target_position = Vector2(163.33333, -3.8146973e-06)
+
+[node name="ChickenArea" type="Area2D" parent="." unique_id=1446646085]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChickenArea" unique_id=1526141729]
+shape = SubResource("CircleShape2D_5h11f")
+
+[node name="EatSound" type="AudioStreamPlayer2D" parent="." unique_id=1053300070]
+stream = ExtResource("7_6gk1l")
+volume_db = 16.25
+
+[connection signal="body_entered" from="ChickenArea" to="." method="_on_chicken_area_area_entered"]

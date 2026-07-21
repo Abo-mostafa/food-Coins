@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dg4nc8re12mgf"]
+
+[ext_resource type="PackedScene" uid="uid://b24fuhu8rsl76" path="res://screens/main_map2.tscn" id="1_ssat8"]
+[ext_resource type="PackedScene" uid="uid://g63fip78dr16" path="res://screens/main/chicken_enemy.tscn" id="2_j6j2j"]
+[ext_resource type="PackedScene" uid="uid://wh66gdpbdves" path="res://screens/main/shawerma.tscn" id="3_wakeg"]
+[ext_resource type="PackedScene" uid="uid://csdyjx8y7qoy4" path="res://screens/main/fries.tscn" id="4_g0ids"]
+[ext_resource type="PackedScene" uid="uid://846rdkxjvbpv" path="res://screens/main/fries2.tscn" id="5_7utxh"]
+[ext_resource type="PackedScene" uid="uid://doxdvgkl2wlv3" path="res://screens/main/mozzarila.tscn" id="6_qcrpv"]
+
+[node name="mainMap" unique_id=432969192 instance=ExtResource("1_ssat8")]
+
+[node name="ChickenEnemy2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="0" unique_id=1734499762 instance=ExtResource("2_j6j2j")]
+position = Vector2(240.00006, 17.00003)
+
+[node name="Shawerma" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="1" unique_id=1849499075 instance=ExtResource("3_wakeg")]
+position = Vector2(1800, 251)
+
+[node name="Fries" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="2" unique_id=457635058 instance=ExtResource("4_g0ids")]
+position = Vector2(1614, 549)
+
+[node name="Fries2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="3" unique_id=1975224422 instance=ExtResource("5_7utxh")]
+position = Vector2(1842, -7)
+
+[node name="Fries3" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="4" unique_id=423154615 instance=ExtResource("5_7utxh")]
+position = Vector2(400, 863)
+
+[node name="Mozzarila" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="5" unique_id=745436650 instance=ExtResource("6_qcrpv")]
+position = Vector2(232, 539)
+
+[node name="Fries4" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="6" unique_id=272083536 instance=ExtResource("4_g0ids")]
+position = Vector2(1862, 827)

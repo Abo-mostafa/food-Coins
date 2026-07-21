@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cyarfhr5viamm"]
+
+[ext_resource type="PackedScene" uid="uid://ccu8c74rbosq4" path="res://screens/main_map.tscn" id="1_tjlsc"]
+[ext_resource type="PackedScene" uid="uid://doxdvgkl2wlv3" path="res://screens/main/mozzarila.tscn" id="2_h5y6b"]
+[ext_resource type="PackedScene" uid="uid://g63fip78dr16" path="res://screens/main/chicken_enemy.tscn" id="3_bh60o"]
+[ext_resource type="PackedScene" uid="uid://wh66gdpbdves" path="res://screens/main/shawerma.tscn" id="4_jkc5j"]
+
+[node name="mainMap" unique_id=432969192 instance=ExtResource("1_tjlsc")]
+
+[node name="Mozzarila" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="1" unique_id=457635058 instance=ExtResource("2_h5y6b")]
+position = Vector2(259, 568)
+
+[node name="Mozzarila2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="2" unique_id=2029027255 instance=ExtResource("2_h5y6b")]
+position = Vector2(841, 248)
+
+[node name="ChickenEnemy2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="3" unique_id=1734499762 instance=ExtResource("3_bh60o")]
+position = Vector2(277, 80)
+
+[node name="ChickenEnemy3" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="4" unique_id=1263892897 instance=ExtResource("3_bh60o")]
+position = Vector2(829, 762)
+
+[node name="ChickenEnemy4" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="5" unique_id=1339378582 instance=ExtResource("3_bh60o")]
+position = Vector2(571, 96)
+
+[node name="ChickenEnemy5" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="6" unique_id=1266830946 instance=ExtResource("3_bh60o")]
+position = Vector2(775, 360)
+
+[node name="Shawerma" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="7" unique_id=1849499075 instance=ExtResource("4_jkc5j")]
+position = Vector2(875, 76)

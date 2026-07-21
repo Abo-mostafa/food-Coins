@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cycsqx15lhvd3"]
+
+[ext_resource type="PackedScene" uid="uid://ccu8c74rbosq4" path="res://screens/main_map.tscn" id="1_46hfb"]
+[ext_resource type="PackedScene" uid="uid://g63fip78dr16" path="res://screens/main/chicken_enemy.tscn" id="2_kgfmc"]
+
+[node name="mainMap" unique_id=432969192 instance=ExtResource("1_46hfb")]
+
+[node name="ChickenEnemy2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="0" unique_id=1734499762 instance=ExtResource("2_kgfmc")]
+position = Vector2(781, 368)
+
+[node name="ChickenEnemy3" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="1" unique_id=1461497156 instance=ExtResource("2_kgfmc")]
+position = Vector2(237, 598)
+
+[node name="ChickenEnemy4" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="2" unique_id=1773868822 instance=ExtResource("2_kgfmc")]
+position = Vector2(768, 592)
+
+[node name="ChickenEnemy5" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="3" unique_id=1264967674 instance=ExtResource("2_kgfmc")]
+position = Vector2(146.00008, 320)

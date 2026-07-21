@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://wh66gdpbdves"]
+
+[ext_resource type="Texture2D" uid="uid://c7peyovxhthls" path="res://art/shawerma/‏‏shawerma.png" id="1_55fdu"]
+[ext_resource type="Script" uid="uid://dq2nx6owhlcgm" path="res://script/shawerma.gd" id="1_kkm46"]
+[ext_resource type="Texture2D" uid="uid://blgfqgiojmd52" path="res://art/shawerma/food/2.png" id="3_g8742"]
+[ext_resource type="Texture2D" uid="uid://dv87sh068b46u" path="res://art/shawerma/food/3.png" id="4_qkctf"]
+[ext_resource type="AudioStream" uid="uid://v6fjwwhywqsv" path="res://sound/eat.mp3" id="6_g8742"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkm46"]
+atlas = ExtResource("1_55fdu")
+region = Rect2(0, 0, 192, 232)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fj6t7"]
+atlas = ExtResource("1_55fdu")
+region = Rect2(192, 0, 192, 232)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ynkrv"]
+atlas = ExtResource("1_55fdu")
+region = Rect2(384, 0, 192, 232)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q5xa"]
+atlas = ExtResource("1_55fdu")
+region = Rect2(0, 232, 288, 232)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bx8n8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_g8742")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qkctf")
+}],
+"loop": 0,
+"name": &"cooked",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkm46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fj6t7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ynkrv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4q5xa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkm46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fj6t7")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5h11f"]
+size = Vector2(62, 92)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5iqjx"]
+radius = 48.0
+height = 108.0
+
+[node name="Shawerma" type="CharacterBody2D" unique_id=1849499075]
+script = ExtResource("1_kkm46")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=418743900]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_bx8n8")
+animation = &"walk"
+
+[node name="FloorRayCast" type="RayCast2D" parent="." unique_id=188389377]
+target_position = Vector2(30, 71)
+
+[node name="EatSound" type="AudioStreamPlayer2D" parent="." unique_id=149602426]
+stream = ExtResource("6_g8742")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1285519514]
+position = Vector2(11, 7)
+shape = SubResource("RectangleShape2D_5h11f")
+
+[node name="ShawermaArea" type="Area2D" parent="." unique_id=276671664]
+position = Vector2(11.25, 22)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShawermaArea" unique_id=659480955]
+position = Vector2(-0.25, -14)
+shape = SubResource("CapsuleShape2D_5iqjx")
+
+[node name="Timer" type="Timer" parent="." unique_id=594848051]
+wait_time = 2.465
+autostart = true
+
+[connection signal="body_entered" from="ShawermaArea" to="." method="_on_Shawerma_area_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_auto_jump"]

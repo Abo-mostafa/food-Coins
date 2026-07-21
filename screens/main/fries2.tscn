@@ -1,0 +1,172 @@
+[gd_scene format=3 uid="uid://846rdkxjvbpv"]
+
+[ext_resource type="Script" uid="uid://cd2u5qenjy1vi" path="res://script/fries.gd" id="1_t24jw"]
+[ext_resource type="Texture2D" uid="uid://tuiifxl2fiuf" path="res://art/fries/02/ATTACK/01.png" id="2_bako2"]
+[ext_resource type="Texture2D" uid="uid://dibyss055rwd" path="res://art/fries/02/IDEL/03.png" id="3_7cl7p"]
+[ext_resource type="Texture2D" uid="uid://dvmqxaijqa8gf" path="res://art/fries/02/ATTACK/02.png" id="3_8ye35"]
+[ext_resource type="Texture2D" uid="uid://vdifqdbit06b" path="res://art/fries/02/IDEL/01.png" id="3_gk6xw"]
+[ext_resource type="Texture2D" uid="uid://j352frth1g8p" path="res://art/fries/02/IDEL/02.png" id="4_h0aup"]
+[ext_resource type="Texture2D" uid="uid://clrnwgugy1sy2" path="res://art/fries/02/ATTACK/03.png" id="4_tbbt0"]
+[ext_resource type="Texture2D" uid="uid://b5w4qyoun8ol5" path="res://art/fries/02/COOK1.png" id="5_8dxgd"]
+[ext_resource type="Texture2D" uid="uid://bl4msi1npanu0" path="res://art/fries/02/IDEL/04.png" id="6_5pnia"]
+[ext_resource type="Texture2D" uid="uid://bcceg8yrn1x70" path="res://art/fries/02/COOK3.png" id="6_vovv7"]
+[ext_resource type="Texture2D" uid="uid://cbierk0xpj322" path="res://art/fries/02/COOK2.png" id="7_a8sot"]
+[ext_resource type="Texture2D" uid="uid://dgi7kvqigabrr" path="res://art/fries/02/IDEL/05.png" id="7_ttpj6"]
+[ext_resource type="Texture2D" uid="uid://utgkh2cmroqx" path="res://art/fries/02/WALK.png" id="13_qsxby"]
+[ext_resource type="Texture2D" uid="uid://cgua8n6epnhjw" path="res://art/fries/02/2-1.png" id="14_bpitt"]
+[ext_resource type="AudioStream" uid="uid://v6fjwwhywqsv" path="res://sound/eat.mp3" id="15_8ye35"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y41pq"]
+atlas = ExtResource("13_qsxby")
+region = Rect2(852, 0, 284, 198)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qt8bc"]
+atlas = ExtResource("13_qsxby")
+region = Rect2(269, 0, 269, 198)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ouuv8"]
+atlas = ExtResource("14_bpitt")
+region = Rect2(0, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_51yuv"]
+atlas = ExtResource("13_qsxby")
+region = Rect2(538, 0, 269, 198)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6syw"]
+atlas = ExtResource("13_qsxby")
+region = Rect2(0, 0, 293, 198)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3psgc"]
+atlas = ExtResource("13_qsxby")
+region = Rect2(1172, 0, 293, 198)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5h11f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_bako2")
+}, {
+"duration": 1.7,
+"texture": ExtResource("3_8ye35")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_tbbt0")
+}],
+"loop": 1,
+"name": &"afraid",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_8dxgd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_vovv7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_a8sot")
+}],
+"loop": 1,
+"name": &"cooked",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_gk6xw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_h0aup")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_7cl7p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_5pnia")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ttpj6")
+}],
+"loop": 2,
+"name": &"ideal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y41pq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qt8bc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ouuv8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_51yuv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6syw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3psgc")
+}],
+"loop": 2,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bx8n8"]
+size = Vector2(106.66667, 108)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5h11f"]
+radius = 86.666664
+height = 173.33333
+
+[node name="Fries" type="CharacterBody2D" unique_id=457635058]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_t24jw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=625130205]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_5h11f")
+animation = &"ideal"
+frame_progress = 0.9718835
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1858708718]
+position = Vector2(10.666664, 16.666672)
+shape = SubResource("RectangleShape2D_bx8n8")
+
+[node name="FloorRayCast" type="RayCast2D" parent="." unique_id=2011893426]
+position = Vector2(6, 10)
+target_position = Vector2(-3.3333333, 135.33334)
+
+[node name="TimerDunse" type="Timer" parent="." unique_id=1616639570]
+wait_time = 1.758
+one_shot = true
+autostart = true
+
+[node name="EatSound" type="AudioStreamPlayer2D" parent="." unique_id=1630511418]
+stream = ExtResource("15_8ye35")
+
+[node name="TimerJump" type="Timer" parent="." unique_id=495407322]
+autostart = true
+
+[node name="BombSpawn" type="Marker2D" parent="." unique_id=1778030613]
+position = Vector2(100, 0)
+gizmo_extents = 50.9
+
+[node name="TimerEndDunse" type="Timer" parent="." unique_id=841306673]
+
+[node name="MozzarilaArea" type="Area2D" parent="." unique_id=890271371]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MozzarilaArea" unique_id=1948018677]
+position = Vector2(5.3333335, 21.333334)
+shape = SubResource("CapsuleShape2D_5h11f")
+
+[node name="SpeedTimer" type="Timer" parent="." unique_id=589647016]
+wait_time = 2.465
+
+[connection signal="timeout" from="TimerDunse" to="." method="_auto_dunse"]
+[connection signal="timeout" from="TimerJump" to="." method="_auto_jump"]
+[connection signal="timeout" from="TimerEndDunse" to="." method="_end_Dunse"]
+[connection signal="body_entered" from="MozzarilaArea" to="." method="_on_Mozzarila_area_entered"]
+[connection signal="timeout" from="SpeedTimer" to="." method="_reset_speed"]

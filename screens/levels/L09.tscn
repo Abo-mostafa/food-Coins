@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bbiirim4ywih6"]
+
+[ext_resource type="PackedScene" uid="uid://ccu8c74rbosq4" path="res://screens/main_map.tscn" id="1_ckdyj"]
+[ext_resource type="PackedScene" uid="uid://g63fip78dr16" path="res://screens/main/chicken_enemy.tscn" id="2_b5uuh"]
+[ext_resource type="PackedScene" uid="uid://doxdvgkl2wlv3" path="res://screens/main/mozzarila.tscn" id="3_qftby"]
+[ext_resource type="Script" uid="uid://w5gjbwgw21gc" path="res://script/Timer_Door.gd" id="4_b5uuh"]
+[ext_resource type="PackedScene" uid="uid://qdjn8ayn0lrx" path="res://screens/main/bomba.tscn" id="4_qftby"]
+
+[node name="mainMap" unique_id=432969192 instance=ExtResource("1_ckdyj")]
+
+[node name="CollisionShape2D4" parent="staticBody" parent_id_path=PackedInt32Array(1362357125) index="11" unique_id=140169416]
+position = Vector2(1390, -8)
+
+[node name="Timer" type="Timer" parent="." index="4" unique_id=646544310]
+wait_time = 3.812
+one_shot = true
+autostart = true
+ignore_time_scale = true
+script = ExtResource("4_b5uuh")
+
+[node name="ChickenEnemy2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="1" unique_id=1665983215 instance=ExtResource("2_b5uuh")]
+position = Vector2(650, -243)
+
+[node name="ChickenEnemy3" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="2" unique_id=1631306007 instance=ExtResource("2_b5uuh")]
+position = Vector2(538, -800)
+
+[node name="Mozzarila2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="3" unique_id=457635058 instance=ExtResource("3_qftby")]
+position = Vector2(649, 240.00002)
+
+[node name="Mozzarila3" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="4" unique_id=1493237578 instance=ExtResource("3_qftby")]
+position = Vector2(221, 68)
+
+[node name="ChickenEnemy4" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="5" unique_id=1613309798 instance=ExtResource("2_b5uuh")]
+position = Vector2(585, -1107)
+
+[node name="ChickenEnemy5" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="6" unique_id=1243105074 instance=ExtResource("2_b5uuh")]
+position = Vector2(522, -1000)
+
+[node name="bomba2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="7" unique_id=1244008525 instance=ExtResource("4_qftby")]
+position = Vector2(926, 363)
+
+[node name="bomba3" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="8" unique_id=1568793506 instance=ExtResource("4_qftby")]
+position = Vector2(286, 331)
+
+[node name="ChickenEnemy" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="9" unique_id=1734499762]
+position = Vector2(560, -631)
+
+[connection signal="timeout" from="Timer" to="Timer" method="_on_timeout"]

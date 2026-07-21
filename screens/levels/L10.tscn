@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://b7mevj8nkiqw0"]
+
+[ext_resource type="PackedScene" uid="uid://ccu8c74rbosq4" path="res://screens/main_map.tscn" id="1_xpou7"]
+[ext_resource type="Texture2D" uid="uid://bj8vie58kru3l" path="res://art/tools/light.png" id="2_gcq3t"]
+[ext_resource type="Script" uid="uid://2qykp077dtts" path="res://script/point_light_2d.gd" id="3_hndof"]
+[ext_resource type="PackedScene" uid="uid://g63fip78dr16" path="res://screens/main/chicken_enemy.tscn" id="4_gcq3t"]
+[ext_resource type="PackedScene" uid="uid://doxdvgkl2wlv3" path="res://screens/main/mozzarila.tscn" id="5_2arum"]
+[ext_resource type="PackedScene" uid="uid://wh66gdpbdves" path="res://screens/main/shawerma.tscn" id="6_v0bri"]
+
+[node name="mainMap" unique_id=432969192 instance=ExtResource("1_xpou7")]
+
+[node name="PointLight2D" type="PointLight2D" parent="Player" parent_id_path=PackedInt32Array(1898819597) index="6" unique_id=132365318]
+position = Vector2(792, -12)
+scale = Vector2(3.3382814, 2.2000003)
+texture = ExtResource("2_gcq3t")
+script = ExtResource("3_hndof")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." index="4" unique_id=1329703321]
+color = Color(0.30323282, 0.30323282, 0.30323282, 1)
+
+[node name="ChickenEnemy2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="1" unique_id=1734499762 instance=ExtResource("4_gcq3t")]
+position = Vector2(442, 90)
+
+[node name="Mozzarila2" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="2" unique_id=457635058 instance=ExtResource("5_2arum")]
+position = Vector2(949, 584)
+
+[node name="Mozzarila3" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="3" unique_id=1868009777 instance=ExtResource("5_2arum")]
+position = Vector2(824, 82)
+
+[node name="Shawerma" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="4" unique_id=1849499075 instance=ExtResource("6_v0bri")]
+position = Vector2(290, 478)
+
+[node name="ChickenEnemy3" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="5" unique_id=1000551405 instance=ExtResource("4_gcq3t")]
+position = Vector2(850, 232)
+
+[node name="ChickenEnemy4" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="6" unique_id=662668016 instance=ExtResource("4_gcq3t")]
+position = Vector2(1030, 360.00003)
+
+[node name="ChickenEnemy5" parent="Enemy" parent_id_path=PackedInt32Array(1776779968) index="7" unique_id=1932976446 instance=ExtResource("4_gcq3t")]
+position = Vector2(82, 336)
