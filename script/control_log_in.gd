@@ -1,17 +1,12 @@
 extends Control
 
 const SAVE_PATH := "user://player_profile.dat"
-
-# Web Client ID من Firebase / Google Cloud Console
 const CLIENT_ID := "82220331811-38nk6u1s815i3do7jjngvniaqebd5dld.apps.googleusercontent.com"
-
-# ⚠️ ضع هنا Web API Key الصحيح من Firebase Console
-# يجب أن يبدأ بـ AIzaSy (ليس بالمفتاح الذي يبدأ بـ 1:...)
-const FIREBASE_API_KEY := "AIzaSyAWaNAy7wK1hTGLkvNoTYkCrI_8BMM0tVk"  
-
+const FIREBASE_API_KEY := "AIzaSyAWaNAy7wK1hTGLkvNoTYkCrI_8BMM0tVk"
 const PORT := 8080
 const REDIRECT_URI := "http://localhost:8080"
-const DEEP_LINK_SCHEME := "food-Coins"
+const DEEP_LINK_SCHEME := "foodcoins"  # ⚠️ غيرته: lowercase بدون واصلة
+const DEEP_LINK_HOST := "oauth2callback"
 
 @onready var login_button: Button = $Log/LoginButton
 @onready var profile_button: Button = $Log/ProfileButton
@@ -29,7 +24,7 @@ var player_data := {
 	"avatar_url": "",
 	"firebase_uid": "",
 	"refresh_token": "",
-	"access_token": ""  # تخزين الـ Access Token للاستخدام المستقبلي
+	"access_token": ""
 }
 
 func _ready() -> void:
@@ -48,23 +43,23 @@ func _ready() -> void:
 	load_player_data()
 	_update_ui()
 	
+	# ─── التحقق من Deep Link عند بدء التطبيق على الموبايل ───
+	if is_mobile:
+		_check_deep_link()
+	
 	if player_data["is_logged_in"]:
 		_verify_firebase_token()
 
-func _process(_delta: float) -> void:
-	if not is_mobile and tcp_server and tcp_server.is_connection_available():
-		var peer = tcp_server.take_connection()
-		var request_string = peer.get_string(peer.get_available_bytes())
-		
-		if "GET /" in request_string:
-			_handle_oauth_response(peer, request_string)
+# ─── مهم جداً: يتم استدعاؤه عند استئناف التطبيق من الخلفية ───
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_RESUMED and is_mobile:
+		_check_deep_link()
 
 # ==========================================
-# 1. عملية تسجيل الدخول (Google OAuth2)
+# 1. تسجيل الدخول (Desktop & Mobile)
 # ==========================================
 func _on_login_button_pressed() -> void:
 	print("\n--- [START] بدء عملية تسجيل الدخول ---")
-	
 	if is_mobile:
 		_login_mobile()
 	else:
@@ -73,6 +68,7 @@ func _on_login_button_pressed() -> void:
 func _login_desktop() -> void:
 	if tcp_server:
 		tcp_server.stop()
+		tcp_server = null
 	
 	tcp_server = TCPServer.new()
 	var err = tcp_server.listen(PORT)
@@ -94,7 +90,7 @@ func _login_desktop() -> void:
 func _login_mobile() -> void:
 	var auth_url = "https://accounts.google.com/o/oauth2/v2/auth"
 	var scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
-	var redirect_uri = DEEP_LINK_SCHEME + "://oauth2callback"
+	var redirect_uri = DEEP_LINK_SCHEME + "://" + DEEP_LINK_HOST
 	var full_url = "%s?client_id=%s&redirect_uri=%s&response_type=token&scope=%s&prompt=consent" % [
 		auth_url, CLIENT_ID, redirect_uri, scope.uri_encode()
 	]
@@ -103,49 +99,145 @@ func _login_mobile() -> void:
 	OS.shell_open(full_url)
 
 # ==========================================
-# 2. استقبال رد المتصفح (Desktop)
+# 2. معالجة رد السيرفر (Desktop) - مُصلح بالكامل
 # ==========================================
+func _process(_delta: float) -> void:
+	if not is_mobile and tcp_server and tcp_server.is_connection_available():
+		var peer = tcp_server.take_connection()
+		if peer:
+			var bytes = peer.get_available_bytes()
+			if bytes > 0:
+				var request_string = peer.get_string(bytes)
+				_handle_oauth_response(peer, request_string)
+
 func _handle_oauth_response(peer: StreamPeerTCP, request: String) -> void:
-	if "access_token=" in request:
-		var access_token = ""
-		var start = request.find("access_token=") + 13
-		var end = request.find("&", start)
-		if end == -1: end = request.find(" ", start)
-		access_token = request.substr(start, end - start)
-		
-		# تخزين الـ Access Token
-		player_data["access_token"] = access_token
-		
-		peer.disconnect_from_host()
-		tcp_server.stop()
-		
-		print("[Success] تم استلام الـ Access Token!")
-		_fetch_google_user_profile(access_token)
+	# ─── الحالة الأولى: استلام access_token في Query String ───
+	if "GET /?" in request and "access_token=" in request:
+		var access_token = _extract_token_from_request(request)
+		if access_token != "":
+			player_data["access_token"] = access_token
+			
+			# ✅ إرسال صفحة نجاح للمتصفح (هذا ما كان ينقص!)
+			var success_html = """<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><title>تم التسجيل</title></head>
+<body style="font-family:sans-serif; text-align:center; padding-top:60px; background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white;">
+	<div style="background:rgba(255,255,255,0.15); padding:40px; border-radius:20px; display:inline-block;">
+		<h1 style="font-size:48px; margin-bottom:10px;">✅</h1>
+		<h2>تم تسجيل الدخول بنجاح!</h2>
+		<p>يمكنك إغلاق هذه الصفحة والعودة إلى اللعبة.</p>
+	</div>
+	<script>setTimeout(function(){ window.close(); }, 2500);</script>
+</body></html>"""
+			
+			_send_http_response(peer, success_html)
+			peer.disconnect_from_host()
+			tcp_server.stop()
+			tcp_server = null
+			
+			print("[Success] تم استلام الـ Access Token!")
+			_fetch_google_user_profile(access_token)
+			return
+	
+	# ─── الحالة الثانية: Google ترجع التوكن في #hash ───
+	# المتصفح لا يرسل الـ hash للسيرفر، لذا نرسل JavaScript يقرأه ويعيد التوجيه
+	var redirect_html = """<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>جاري التحويل...</title></head>
+<body style="font-family:sans-serif; text-align:center; padding-top:50px;">
+	<h2 style="color:#2196F3;">⏳ جاري إتمام تسجيل الدخول...</h2>
+	<p>يرجى الانتظار...</p>
+	<script>
+		if (window.location.hash && window.location.hash.length > 1) {
+			var hash = window.location.hash.substring(1);
+			window.location.replace("http://localhost:8080/?" + hash);
+		} else {
+			document.body.innerHTML = "<h2 style='color:red;'>❌ لم يتم العثور على بيانات المصادقة</h2><p>يرجى المحاولة مرة أخرى.</p>";
+		}
+	</script>
+</body></html>"""
+	
+	_send_http_response(peer, redirect_html)
+	peer.disconnect_from_host()
+
+func _send_http_response(peer: StreamPeerTCP, body: String, status: String = "200 OK") -> void:
+	var body_bytes = body.to_utf8_buffer()
+	var header = "HTTP/1.1 %s\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: %d\r\nConnection: close\r\n\r\n" % [status, body_bytes.size()]
+	peer.put_data(header.to_utf8_buffer())
+	peer.put_data(body_bytes)
+
+func _extract_token_from_request(request: String) -> String:
+	# استخراج access_token من سطر GET فقط (أكثر أماناً)
+	var lines = request.split("\r\n")
+	if lines.size() == 0:
+		return ""
+	
+	var first_line = lines[0]
+	if not first_line.begins_with("GET /"):
+		return ""
+	
+	var query_start = first_line.find("?")
+	if query_start == -1:
+		return ""
+	
+	var query_end = first_line.find(" ", query_start)
+	if query_end == -1:
+		query_end = first_line.length()
+	
+	var query = first_line.substr(query_start + 1, query_end - query_start - 1)
+	var token_key = "access_token="
+	var token_start = query.find(token_key)
+	if token_start == -1:
+		return ""
+	
+	token_start += token_key.length()
+	var token_end = query.find("&", token_start)
+	if token_end == -1:
+		token_end = query.length()
+	
+	return query.substr(token_start, token_end - token_start)
+
+# ==========================================
+# 3. معالجة Deep Link على Android
+# ==========================================
+func _check_deep_link() -> void:
+	# الخيار الأفضل: إذا كنت تستخدم Deeplink Plugin
+	if Engine.has_singleton("Deeplink"):
+		var deeplink = Engine.get_singleton("Deeplink")
+		var url = deeplink.get_link_url()
+		if url and url.contains("access_token="):
+			_process_access_token_from_url(url)
 		return
 	
-	var html_script = """
-	<html>
-	<body>
-		<h2 style='color:green; font-family:sans-serif;'>✅ جاري إتمام تسجيل الدخول...</h2>
-		<p style='font-family:sans-serif;'>يمكنك إغلاق هذه الصفحة الآن.</p>
-		<script>
-			if (window.location.hash) {
-				var hash = window.location.hash.substring(1);
-				window.location.href = "http://localhost:8080/?" + hash;
-			}
-		</script>
-	</body>
-	</html>
-	"""
+	# احتياطي: قراءة من command line args
+	var args = OS.get_cmdline_args()
+	for arg in args:
+		if arg.contains("access_token="):
+			_process_access_token_from_url(arg)
+			return
 
-	var response_bytes = html_script.to_utf8_buffer()
-	var header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: " + str(response_bytes.size()) + "\r\n\r\n"
-	
-	peer.put_data(header.to_utf8_buffer())
-	peer.put_data(response_bytes)
+func _process_access_token_from_url(url: String) -> void:
+	var token = _extract_param_from_url(url, "access_token")
+	if token != "":
+		player_data["access_token"] = token
+		print("[Mobile] تم استلام Access Token من Deep Link")
+		_fetch_google_user_profile(token)
+
+func _extract_param_from_url(url: String, param: String) -> String:
+	var pattern = param + "="
+	var start = url.find(pattern)
+	if start == -1:
+		return ""
+	start += pattern.length()
+	var end = url.find("&", start)
+	if end == -1:
+		end = url.find("#", start)
+	if end == -1:
+		end = url.length()
+	return url.substr(start, end - start)
 
 # ==========================================
-# 3. جلب بيانات المستخدم من Google
+# 4. جلب بيانات المستخدم من Google
 # ==========================================
 func _fetch_google_user_profile(token: String) -> void:
 	print("[Google] جاري جلب بيانات المستخدم...")
@@ -153,9 +245,6 @@ func _fetch_google_user_profile(token: String) -> void:
 	var headers = ["Authorization: Bearer " + token]
 	http_request.request(url, headers)
 
-# ==========================================
-# 4. استقبال الردود
-# ==========================================
 func _on_http_request_completed(_result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
 	var json = JSON.new()
 	var parse_result = json.parse(body.get_string_from_utf8())
@@ -167,10 +256,8 @@ func _on_http_request_completed(_result: int, response_code: int, _headers: Pack
 	var response = json.data
 	print("[Response] كود الاستجابة: ", response_code)
 	
-	# إذا كان رد من Google UserInfo
 	if response.has("email") and response.has("sub"):
 		_handle_google_user_info(response)
-	# إذا كان رد من Firebase
 	elif response.has("idToken") or response.has("localId") or response.has("refreshToken"):
 		_handle_firebase_response(response, response_code)
 	else:
@@ -184,7 +271,6 @@ func _handle_google_user_info(response: Dictionary) -> void:
 	var avatar = response.get("picture", "")
 	var google_id = response.get("sub", "")
 	
-	# حفظ صورة المستخدم
 	player_data["avatar_url"] = avatar
 	
 	if email:
@@ -193,23 +279,17 @@ func _handle_google_user_info(response: Dictionary) -> void:
 		print("[Error] لم يتم استلام البريد الإلكتروني")
 
 # ==========================================
-# 5. تسجيل الدخول إلى Firebase باستخدام Google
+# 5. تسجيل الدخول إلى Firebase
 # ==========================================
 func _sign_in_with_firebase_google(email: String, user_name: String, google_id: String) -> void:
 	print("[Firebase] جاري تسجيل الدخول إلى Firebase...")
 	
-	# الطريقة الصحيحة: استخدام signInWithIdp مع id_token من Google
-	# لكن بما أننا نستخدم Access Token، نحتاج إلى ID Token أيضاً
-	# الحل: استخدام Accounts:signInWithIdp مع الـ Access Token مباشرة
-	
 	var url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=" + FIREBASE_API_KEY
-	
 	var headers = ["Content-Type: application/json"]
 	
-	# استخدام Access Token مباشرة مع provider
 	var body_dict = {
 		"postBody": "access_token=" + player_data["access_token"] + "&providerId=google.com",
-		"requestUri": REDIRECT_URI,
+		"requestUri": REDIRECT_URI if not is_mobile else (DEEP_LINK_SCHEME + "://" + DEEP_LINK_HOST),
 		"returnIdpCredential": true,
 		"returnSecureToken": true
 	}
@@ -218,26 +298,19 @@ func _sign_in_with_firebase_google(email: String, user_name: String, google_id: 
 	if error != OK:
 		print("[Error] فشل إرسال طلب Firebase: ", error)
 
-# ==========================================
-# 6. معالجة رد Firebase
-# ==========================================
 func _handle_firebase_response(response: Dictionary, response_code: int) -> void:
 	if response_code != 200:
 		print("[Firebase Error] فشل التسجيل. كود: ", response_code)
 		print("التفاصيل: ", response)
 		
-		# محاولة بديلة: تسجيل الدخول باستخدام البريد الإلكتروني وكلمة المرور
 		if response.has("error") and response.error.has("message"):
-			if "API key not valid" in response.error.message:
+			var msg = response.error.message
+			if "API key not valid" in msg:
 				print("[Error] ⚠️ مفتاح Firebase API غير صحيح!")
-				print("الرجاء الحصول على Web API Key من Firebase Console")
-				print("(يبدأ بـ AIzaSy وليس بـ 1:)")
-			elif "EMAIL_EXISTS" in response.error.message:
-				print("[Firebase] الحساب موجود، جاري تسجيل الدخول...")
-				# محاولة تسجيل الدخول باستخدام البريد الإلكتروني
+			elif "INVALID_IDP_RESPONSE" in msg or "invalid access_token" in msg.to_lower():
+				print("[Error] الـ Access Token غير كافٍ. استخدم Authorization Code Flow للحصول على ID Token.")
 		return
 	
-	# تسجيل ناجح
 	player_data["is_logged_in"] = true
 	player_data["display_name"] = response.get("displayName", response.get("email", "Player"))
 	player_data["email"] = response.get("email", "")
@@ -255,7 +328,7 @@ func _handle_firebase_response(response: Dictionary, response_code: int) -> void
 	_update_ui()
 
 # ==========================================
-# 7. التحقق من صحة التوكن (Refresh)
+# 6. التحقق من التوكن
 # ==========================================
 func _verify_firebase_token() -> void:
 	if not player_data["refresh_token"]:
@@ -273,7 +346,7 @@ func _verify_firebase_token() -> void:
 		print("[Error] فشل تحديث التوكن: ", error)
 
 # ==========================================
-# 8. تسجيل الخروج
+# 7. تسجيل الخروج
 # ==========================================
 func _on_logout_button_pressed() -> void:
 	print("[Auth] جاري تسجيل الخروج...")
@@ -293,7 +366,7 @@ func _on_logout_button_pressed() -> void:
 	print("[Success] تم تسجيل الخروج بنجاح!")
 
 # ==========================================
-# 9. واجهة المستخدم والحفظ
+# 8. واجهة المستخدم والحفظ
 # ==========================================
 func _update_ui() -> void:
 	if player_data["is_logged_in"]:
