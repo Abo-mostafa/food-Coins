@@ -110,14 +110,14 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_umapm"]
-radius = 18.0
-height = 96.0
+radius = 22.0
+height = 104.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_glqc0"]
 radius = 49.0
 height = 154.0
 
-[node name="bomba" type="RigidBody2D" unique_id=1826958830]
+[node name="bomba" type="RigidBody2D" unique_id=1826958830 groups=["Bomba"]]
 physics_material_override = SubResource("PhysicsMaterial_umapm")
 gravity_scale = 0.457
 script = ExtResource("1_umapm")
@@ -137,12 +137,12 @@ wait_time = 3.0
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=411622354]
 stream = ExtResource("9_iv7i3")
-volume_db = -0.812
+volume_db = -31.749
 
 [node name="ExplosionArea" type="Area2D" parent="." unique_id=1190674201]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea" unique_id=1352725619]
-position = Vector2(3, -24)
+position = Vector2(1, -16)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_glqc0")
 

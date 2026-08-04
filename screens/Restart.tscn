@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://dv4urdac0e35q"]
+
+[ext_resource type="Texture2D" uid="uid://bdne7a3fe2t80" path="res://art/logo/large.png" id="1_o6ebh"]
+
+[sub_resource type="Animation" id="Animation_ltuvi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/ColorRect/Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.7911111, 0.8211111)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/ColorRect/Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_o6ebh"]
+resource_name = "fadOut"
+length = 4.2
+step = 1.0
+markers = [{
+"color": Color(1, 1, 1, 1),
+"name": &"new_marker",
+"time": 0.0
+}]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/ColorRect/Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.0101343, 1.982624, 3.005307),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.7911111, 0.8211111), Vector2(0.3, 0.311), Vector2(0.096, 0.1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/ColorRect/Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4.1346493),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s4nbe"]
+_data = {
+&"RESET": SubResource("Animation_ltuvi"),
+&"fadOut": SubResource("Animation_o6ebh")
+}
+
+[node name="Restart" type="CanvasLayer" unique_id=605682394 groups=["Restart"]]
+visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=801232999]
+libraries/ = SubResource("AnimationLibrary_s4nbe")
+
+[node name="ColorRect" type="ColorRect" parent="AnimationPlayer" unique_id=646510260]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.13333334, 0, 0, 0.4745098)
+
+[node name="ColorRect2" type="ColorRect" parent="AnimationPlayer/ColorRect" unique_id=1778275507]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 266.0
+offset_top = 176.0
+offset_right = -203.0
+offset_bottom = -57.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(2.1650257, 0, 0.16801344, 0.9607843)
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimationPlayer/ColorRect" unique_id=1663268018]
+visible = false
+position = Vector2(644.5, 358.5)
+scale = Vector2(0.7911111, 0.8211111)
+texture = ExtResource("1_o6ebh")

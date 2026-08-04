@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://v5dyjbhvbnhb" path="res://script/enemy.gd" id="5_cawdf"]
 [ext_resource type="PackedScene" uid="uid://g63fip78dr16" path="res://screens/main/chicken_enemy.tscn" id="5_flqil"]
 [ext_resource type="PackedScene" uid="uid://doxdvgkl2wlv3" path="res://screens/main/mozzarila.tscn" id="7_e5bxb"]
+[ext_resource type="PackedScene" uid="uid://c8ihmbj667ej8" path="res://screens/HUD.tscn" id="8_68hlk"]
+[ext_resource type="PackedScene" uid="uid://bkum1u41j6flf" path="res://screens/touch_controls.tscn" id="9_36buj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jx8xl"]
 texture = ExtResource("1_xkc1u")
@@ -4367,7 +4369,7 @@ sprite_frames = SubResource("SpriteFrames_5h11f")
 frame_progress = 1.0
 
 [node name="Player" parent="." unique_id=1898819597 instance=ExtResource("3_s3ti3")]
-position = Vector2(581, 561)
+position = Vector2(483, 721)
 
 [node name="Enemy" type="Node2D" parent="." unique_id=1776779968]
 script = ExtResource("5_cawdf")
@@ -4377,6 +4379,11 @@ position = Vector2(350.00006, 203)
 scale = Vector2(0.15, 0.15)
 
 [node name="Mozzarila" parent="Enemy" unique_id=457635058 instance=ExtResource("7_e5bxb")]
-position = Vector2(109, 73)
+position = Vector2(832, 226)
+
+[node name="HUD" parent="." unique_id=1136024937 instance=ExtResource("8_68hlk")]
+
+[node name="TouchControls" parent="." unique_id=2042258065 instance=ExtResource("9_36buj")]
+auto_translate_mode = 2
 
 [connection signal="child_exiting_tree" from="." to="Enemy" method="_on_monster_died"]

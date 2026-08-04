@@ -5,6 +5,8 @@ var direction := 1.0
 var is_dead := false
 const RaycastOffest = 15
 @onready var EatSound: AudioStreamPlayer2D = $EatSound
+@onready var hud = get_tree().get_first_node_in_group("HUD")
+@export var addScore : int =100
 
 func  _physics_process(delta: float) -> void:
 	_on_Shawerma_area_area_entered
@@ -41,6 +43,7 @@ func _on_Shawerma_area_area_entered(body: Node2D) -> void:
 		if is_dead:
 			EatSound.play()
 			print("اكلت السمكة حتى راسها")
+			hud.update_score(addScore)
 			# نخفي الدجاجة ونوقف تصادمها حتى لا يراها اللاعب أو يتفاعل معها مجدداً
 			hide() 
 			$ShawermaArea.queue_free() # حذف منطقة التصادم فوراً

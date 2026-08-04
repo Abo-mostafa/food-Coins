@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://bkum1u41j6flf"]
+
+[ext_resource type="Texture2D" uid="uid://nad7vdfk74wf" path="res://art/tools/btn/on.png" id="2_tqo0p"]
+[ext_resource type="Texture2D" uid="uid://8wwnej1aq24j" path="res://art/tools/btn/off.png" id="3_qerbb"]
+
+[node name="TouchControls" type="CanvasLayer" unique_id=740014524]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=632777102]
+show_behind_parent = true
+top_level = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 615.0
+offset_top = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+layout_direction = 1
+
+[node name="BombButton" type="TouchScreenButton" parent="HBoxContainer" unique_id=856579698]
+position = Vector2(160, 348)
+scale = Vector2(1.5, 1.5)
+texture_normal = ExtResource("2_tqo0p")
+texture_pressed = ExtResource("3_qerbb")
+action = "throw_bomb"
+
+[node name="VirtualJoystick" type="VirtualJoystick" parent="." unique_id=908140020]
+process_mode = 1
+offset_top = 107.0
+offset_right = 495.0
+offset_bottom = 646.0
+joystick_mode = 1
+tip_size = 61.0
+clampzone_ratio = 1.18
+action_left = &"move_left"
+action_right = &"move_right"
+action_up = &"jump"

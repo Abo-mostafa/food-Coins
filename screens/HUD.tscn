@@ -1,3 +1,114 @@
 [gd_scene format=3 uid="uid://c8ihmbj667ej8"]
 
-[node name="HUD" type="CanvasLayer" unique_id=1136024937]
+[ext_resource type="Script" uid="uid://dd2buu8okcpyt" path="res://script/hud.gd" id="1_1x82c"]
+[ext_resource type="Texture2D" uid="uid://cfdp41e0aor2g" path="res://art/logo/idle2.png" id="2_72eq5"]
+[ext_resource type="FontFile" uid="uid://cxis6yyfoodw8" path="res://art/font/ReemKufi-VariableFont_wght.ttf" id="2_hogty"]
+[ext_resource type="Texture2D" uid="uid://brh3dvfn2e026" path="res://art/tools/btn/btn1.png" id="2_ww6hu"]
+
+[sub_resource type="Theme" id="Theme_5h11f"]
+default_font = ExtResource("2_hogty")
+default_font_size = 0
+
+[sub_resource type="Theme" id="Theme_hogty"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgu0r"]
+bg_color = Color(1.1909674, 0.11926534, 0, 0.98039216)
+border_color = Color(0.91764706, 0.36862746, 1, 0.5372549)
+shadow_color = Color(0, 0.5019608, 0, 0.6)
+shadow_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hogty"]
+bg_color = Color(2.9841065e-06, 0.7124764, 0.45804203, 0.84313726)
+
+[node name="HUD" type="CanvasLayer" unique_id=1136024937 groups=["HUD"]]
+script = ExtResource("1_1x82c")
+
+[node name="TopBar" type="PanelContainer" parent="." unique_id=239014175]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+size_flags_stretch_ratio = 0.0
+layout_direction = 1
+theme = SubResource("Theme_5h11f")
+
+[node name="TopHBox" type="HBoxContainer" parent="TopBar" unique_id=23225724]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="HealthSection" type="HBoxContainer" parent="TopBar/TopHBox" unique_id=532796477]
+modulate = Color(0.41568628, 0.4392157, 0.47058824, 1)
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+offset_transform_enabled = true
+
+[node name="HeartIcon" type="TextureRect" parent="TopBar/TopHBox/HealthSection" unique_id=998355477]
+layout_mode = 2
+texture = ExtResource("2_72eq5")
+expand_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="TopBar/TopHBox/HealthSection" unique_id=73916998]
+custom_minimum_size = Vector2(150, 20)
+layout_mode = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_hogty")
+theme_override_colors/font_color = Color(0.13180143, 0, 0.98062307, 1)
+theme_override_colors/font_outline_color = Color(0.81031257, 0.7378747, 0.19840622, 1)
+theme_override_constants/outline_size = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_xgu0r")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hogty")
+step = 1.0
+value = 50.0
+
+[node name="LevelInfo" type="HBoxContainer" parent="TopBar/TopHBox" unique_id=1505246417]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="TimerLabel" type="Label" parent="TopBar/TopHBox/LevelInfo" unique_id=1974179687]
+layout_mode = 2
+text = "tim "
+
+[node name="LevelNameLabel" type="Label" parent="TopBar/TopHBox/LevelInfo" unique_id=1490227620]
+layout_mode = 2
+text = "leavel"
+
+[node name="StatsSection" type="HBoxContainer" parent="TopBar/TopHBox" unique_id=692611849]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+
+[node name="ScoreLabel" type="Label" parent="TopBar/TopHBox/StatsSection" unique_id=1112393210]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.0
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="TopBar/TopHBox/StatsSection" unique_id=746694763]
+custom_minimum_size = Vector2(-200, 0)
+layout_mode = 2
+texture = ExtResource("2_ww6hu")
+expand_mode = 2
+
+[node name="EnemyLabel" type="Label" parent="TopBar/TopHBox/StatsSection" unique_id=1298133688]
+layout_mode = 2
+text = "🍽"
+
+[node name="BombLabel" type="Label" parent="TopBar/TopHBox/StatsSection" unique_id=723935012]
+layout_mode = 2
+
+[node name="Home" type="Button" parent="TopBar" unique_id=1921399620]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "خروج"
+
+[node name="LevelTimer" type="Timer" parent="." unique_id=587245780]
+
+[connection signal="pressed" from="TopBar/Home" to="." method="_on_home_pressed"]

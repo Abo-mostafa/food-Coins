@@ -5,6 +5,8 @@ var direction := 1.0
 var is_dead := false
 const RaycastOffest = 15
 @onready var EatSound: AudioStreamPlayer2D = $EatSound
+@onready var hud = get_tree().get_first_node_in_group("HUD")
+@export var addScore : int =50
 
 func  _physics_process(delta: float) -> void:
 	_on_chicken_area_area_entered
@@ -42,7 +44,7 @@ func _on_chicken_area_area_entered(body: Node2D) -> void:
 			# نخفي الدجاجة ونوقف تصادمها حتى لا يراها اللاعب أو يتفاعل معها مجدداً
 			hide() 
 			$ChickenArea.queue_free() # حذف منطقة التصادم فوراً
-			
+			hud.update_score(addScore)
 			# ننتظر حتى ينتهي الصوت تماماً قبل حذف الدجاجة نهائياً من الذاكرة
 			await EatSound.finished
 			queue_free()

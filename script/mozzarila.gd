@@ -10,6 +10,10 @@ var is_dunse := false
 var is_afraid := false
 @onready var EatSound: AudioStreamPlayer2D = $EatSound
 
+@onready var hud = get_tree().get_first_node_in_group("HUD")
+@export var addScore : int =150
+
+
 func _physics_process(delta: float) -> void:
 	# 1. تطبيق الجاذبية أولاً إذا لم يكن على الأرض
 	if not is_on_floor():
@@ -69,7 +73,7 @@ func _on_Mozzarila_area_entered(area: Node2D) -> void:
 		if is_dead:
 			EatSound.play()
 			print("اكلت السمكة حتى راسها")
-			
+			hud.update_score(addScore)
 			# 🛠️ الحل: إيقاف جميع التايمرات فوراً لمنعها من العمل في الخلفية
 			if has_node("TimerJump"): $TimerJump.stop()
 			if has_node("TimerEndDunse"): $TimerEndDunse.stop()

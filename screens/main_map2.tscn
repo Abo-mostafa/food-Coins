@@ -4,7 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://y051nsqkktpi" path="res://art/map/images.jpeg" id="4_a7vdj"]
 [ext_resource type="PackedScene" uid="uid://dnflnvr31kstq" path="res://screens/main/player.tscn" id="4_sm30s"]
 [ext_resource type="Script" uid="uid://v5dyjbhvbnhb" path="res://script/enemy.gd" id="5_ycm0l"]
+[ext_resource type="PackedScene" uid="uid://c8ihmbj667ej8" path="res://screens/HUD.tscn" id="6_0kkvt"]
 [ext_resource type="PackedScene" uid="uid://g63fip78dr16" path="res://screens/main/chicken_enemy.tscn" id="6_sfm5r"]
+[ext_resource type="PackedScene" uid="uid://bkum1u41j6flf" path="res://screens/touch_controls.tscn" id="7_6tur5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mf454"]
 texture = ExtResource("4_a7vdj")
@@ -311,3 +313,7 @@ script = ExtResource("5_ycm0l")
 [node name="ChickenEnemy" parent="Enemy" unique_id=1734499762 instance=ExtResource("6_sfm5r")]
 position = Vector2(485, 275)
 scale = Vector2(0.15, 0.15)
+
+[node name="HUD" parent="." unique_id=1136024937 instance=ExtResource("6_0kkvt")]
+
+[node name="TouchControls" parent="." unique_id=2042258065 instance=ExtResource("7_6tur5")]

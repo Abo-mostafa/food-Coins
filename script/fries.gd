@@ -13,6 +13,9 @@ var is_afraid := false
 const OIL_SCENE = preload("res://screens/main/oil.tscn")
 var face_direction : int = 1
 
+@onready var hud = get_tree().get_first_node_in_group("HUD")
+@export var addScore : int = 200
+
 func _ready() -> void:
 	# ضبط اتجاه الوجه ومكان إطلاق الزيت عند بدء التشغيل تلقائياً بناءً على الاتجاه الافتراضي
 	face_direction = 1 if direction > 0 else -1
@@ -74,6 +77,7 @@ func _on_Mozzarila_area_entered(area: Node2D) -> void:
 		if is_dead:
 			EatSound.play()
 			print("تم أكل البطاطس المقرمشة!")
+			hud.update_score(addScore)
 			
 			# إيقاف جميع التايمرات فوراً لمنعها من العمل في الخلفية
 			if has_node("TimerJump"): $TimerJump.stop()

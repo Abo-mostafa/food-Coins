@@ -104,10 +104,9 @@ animations = [{
 radius = 111.0
 height = 268.0
 
-[node name="Player" type="CharacterBody2D" unique_id=1898819597]
+[node name="Player" type="CharacterBody2D" unique_id=1898819597 groups=["Player"]]
 scale = Vector2(0.25, 0.25)
 script = ExtResource("1_xslun")
-move_speed = 400.47
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1312520345]
 position = Vector2(-2, 0)
@@ -139,3 +138,8 @@ stream = ExtResource("17_f2xf8")
 [node name="wing" type="AudioStreamPlayer2D" parent="." unique_id=560257857]
 stream = ExtResource("18_wa3t1")
 volume_db = -15.826
+
+[node name="TimerRestart" type="Timer" parent="." unique_id=1019361251]
+one_shot = true
+
+[connection signal="timeout" from="TimerRestart" to="." method="_on_timer_restart_timeout"]
