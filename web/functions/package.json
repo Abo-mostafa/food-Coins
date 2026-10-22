@@ -1,0 +1,14 @@
+{
+  "name": "foodcoins-functions",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "engines": { "node": "20" },
+  "scripts": {
+    "sync": "node ../scripts/sync-engine.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.5.0",
+    "firebase-functions": "^6.4.0"
+  }
+}
